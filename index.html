@@ -6,197 +6,60 @@
 <title>San Andreas в браузере</title>
 <style>
 :root{--k:#0d0c0a;--bone:#efe7d3;--green:#4a9a3f;--amber:#f0a030;--red:#c0392b;--dim:#a79f8b}
-*{box-sizing:border-box;margin:0}
-html,body{height:100%}
+*{box-sizing:border-box;margin:0}html,body{height:100%}
 body{background:var(--k);color:var(--bone);font:600 16px/1.4 "Arial Narrow",Arial,Helvetica,sans-serif;overflow-x:hidden}
-.bg{position:fixed;inset:0;background:
- radial-gradient(circle at 72% 62%,#ffd27a 0 7%,#f0a030 8% 14%,transparent 40%),
- linear-gradient(#150b07 0%,#4a2210 45%,#b85f1a 78%,#e8942a 100%)}
-.bg svg{position:absolute;left:0;bottom:0;width:100%;height:46%}
-.bg::after{content:"";position:absolute;inset:0;
- background:radial-gradient(ellipse at 50% 40%,transparent 35%,rgba(0,0,0,.75) 100%),
- url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
- opacity:.9;mix-blend-mode:multiply}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 72% 62%,#ffd27a 0 7%,#f0a030 8% 14%,transparent 40%),linear-gradient(#150b07 0%,#4a2210 45%,#b85f1a 78%,#e8942a 100%)}
+.bg svg{position:absolute;left:0;bottom:0;width:100%;height:46%}.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 35%,rgba(0,0,0,.75) 100%),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");opacity:.9;mix-blend-mode:multiply}
 main{position:relative;z-index:1;min-height:100%;padding:max(20px,env(safe-area-inset-top)) 20px 28px;max-width:560px;display:flex;flex-direction:column;gap:18px}
-h1{font:italic 900 clamp(56px,16vw,104px)/.88 Impact,"Arial Black",Haettenschweiler,sans-serif;letter-spacing:-.01em;color:var(--bone);
- -webkit-text-stroke:3px #000;paint-order:stroke fill;text-shadow:5px 5px 0 #000,7px 7px 0 var(--green);transform:skewX(-6deg);margin-top:10px}
-.tag{color:var(--bone);text-shadow:2px 2px 0 #000;font-size:18px;max-width:30ch}
-.panel{background:rgba(8,7,6,.82);border-left:6px solid var(--green);padding:6px 0}
-.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 18px;text-shadow:2px 2px 0 #000;font-size:18px}
-.row small{color:var(--dim);font-size:14px;font-weight:600}
-.row + .row{border-top:1px solid rgba(239,231,211,.08)}
-.group{padding:10px 18px 2px;color:var(--amber);font:italic 900 22px Impact,"Arial Black",sans-serif;text-shadow:2px 2px 0 #000}
-.ok{color:var(--green)}.no{color:var(--red)}.wait{color:var(--dim)}
+h1{font:italic 900 clamp(56px,16vw,104px)/.88 Impact,"Arial Black",Haettenschweiler,sans-serif;letter-spacing:-.01em;color:var(--bone);-webkit-text-stroke:3px #000;paint-order:stroke fill;text-shadow:5px 5px 0 #000,7px 7px 0 var(--green);transform:skewX(-6deg);margin-top:10px}
+.tag{color:var(--bone);text-shadow:2px 2px 0 #000;font-size:18px;max-width:30ch}.panel{background:rgba(8,7,6,.82);border-left:6px solid var(--green);padding:6px 0}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 18px;text-shadow:2px 2px 0 #000;font-size:18px}.row small{color:var(--dim);font-size:14px;font-weight:600}.row+.row{border-top:1px solid rgba(239,231,211,.08)}
+.group{padding:10px 18px 2px;color:var(--amber);font:italic 900 22px Impact,"Arial Black",sans-serif;text-shadow:2px 2px 0 #000}.ok{color:var(--green)}.no{color:var(--red)}.wait{color:var(--dim)}
 button{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;padding:13px 18px;font:italic 900 24px Impact,"Arial Black",sans-serif;color:var(--bone);text-shadow:2px 2px 0 #000;border-left:6px solid transparent}
-button:hover,button:focus-visible{color:var(--amber);border-left-color:var(--amber);background:rgba(240,160,48,.1)}
-button:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
-button[disabled]{color:#6b665a;cursor:not-allowed;background:none;border-left-color:transparent}
-#msg{padding:10px 18px 12px;color:var(--amber);font-size:15px;text-shadow:1px 1px 0 #000}
-footer{color:var(--dim);font-size:13px;max-width:52ch;text-shadow:1px 1px 0 #000;margin-top:auto}
-#game{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:none;z-index:5}
-#load{position:fixed;inset:0;z-index:6;background:var(--k);display:none;flex-direction:column;justify-content:flex-end;padding:28px}
-#load h2{font:italic 900 40px Impact,"Arial Black",sans-serif;text-shadow:3px 3px 0 #000;margin-bottom:14px}
-.bar{height:14px;background:#2a2823;border:2px solid #000}
-.bar i{display:block;height:100%;width:0;background:var(--green)}
-body.playing .bg,body.playing main{display:none}
+button:hover,button:focus-visible{color:var(--amber);border-left-color:var(--amber);background:rgba(240,160,48,.1)}button:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}button[disabled]{color:#6b665a;cursor:not-allowed;background:none;border-left-color:transparent}
+#msg{padding:10px 18px 12px;color:var(--amber);font-size:15px;text-shadow:1px 1px 0 #000}footer{color:var(--dim);font-size:13px;max-width:52ch;text-shadow:1px 1px 0 #000;margin-top:auto}
+#game{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:none;z-index:5}#load{position:fixed;inset:0;z-index:6;background:var(--k);display:none;flex-direction:column;justify-content:flex-end;padding:28px}
+#load h2{font:italic 900 40px Impact,"Arial Black",sans-serif;text-shadow:3px 3px 0 #000;margin-bottom:14px}.bar{height:14px;background:#2a2823;border:2px solid #000}.bar i{display:block;height:100%;width:0;background:var(--green)}
+#fsBtn{position:fixed;right:14px;top:max(14px,env(safe-area-inset-top));z-index:10;width:auto;padding:9px 14px;border:2px solid var(--bone);background:rgba(0,0,0,.65);font:italic 900 18px Impact,"Arial Black",sans-serif;text-shadow:2px 2px #000;display:none}
+body.playing .bg,body.playing main{display:none}body.playing #fsBtn{display:block}
+body:fullscreen #fsBtn,body:-webkit-full-screen #fsBtn{display:block}
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true">
-<svg viewBox="0 0 1000 300" preserveAspectRatio="none"><g fill="#0a0604">
-<path d="M0 300V190h60v-40h50v60h40V120h70v90h50v-60h60v80h50V100h80v110h40v-70h60v90h60V130h70v70h50v-50h60v90h40v-40h60v110z"/>
-<path d="M880 300c0-60 6-110 10-150-30 8-60 4-80-12 24 2 50 2 74-14-14-10-40-14-60-8 22-14 52-10 70 6 4-26 20-48 40-60-14 24-16 46-8 66 22-18 54-20 76-8-26 2-48 14-60 34 14 20 16 60 14 146z"/>
-</g></svg></div>
-
+<div class="bg" aria-hidden="true"><svg viewBox="0 0 1000 300" preserveAspectRatio="none"><g fill="#0a0604"><path d="M0 300V190h60v-40h50v60h40V120h70v90h50v-60h60v80h50V100h80v110h40v-70h60v90h60V130h70v70h50v-50h60v90h40v-40h60v110z"/><path d="M880 300c0-60 6-110 10-150-30 8-60 4-80-12 24 2 50 2 74-14-14-10-40-14-60-8 22-14 52-10 70 6 4-26 20-48 40-60-14 24-16 46-8 66 22-18 54-20 76-8-26 2-48 14-60 34 14 20 16 60 14 146z"/></g></svg></div>
 <main>
-<h1>San Andreas</h1>
-<p class="tag">Играй в браузере. Файлы игры берутся с твоего диска.</p>
-
-<section class="panel" aria-label="Проверка браузера">
-<div class="group">Браузер</div>
-<div id="checks"></div>
-</section>
-
-<section class="panel" aria-label="Папка с игрой">
-<div class="group">Папка с игрой</div>
-<button id="pick" type="button">Выбрать папку</button>
-<div class="row"><span>data/gta_vc.dat</span><b id="f1" class="wait">не проверено</b></div>
-<div class="row"><span>models/gta3.img</span><b id="f2" class="wait">не проверено</b></div>
-<div id="msg" role="status"></div>
-</section>
-
-<section class="panel">
-<button id="play" type="button" disabled>Начать игру</button>
-</section>
-
+<h1>San Andreas</h1><p class="tag">Играй в браузере. Файлы игры берутся с твоего диска.</p>
+<section class="panel" aria-label="Проверка браузера"><div class="group">Браузер</div><div id="checks"></div></section>
+<section class="panel" aria-label="Папка с игрой"><div class="group">Папка с игрой</div><button id="pick" type="button">Выбрать папку</button><button id="restore" type="button" style="display:none">Восстановить сохранённую папку</button><div class="row"><span>data/gta_vc.dat</span><b id="f1" class="wait">не проверено</b></div><div class="row"><span>models/gta3.img</span><b id="f2" class="wait">не проверено</b></div><div id="msg" role="status"></div></section>
+<section class="panel"><button id="play" type="button" disabled>Начать игру</button></section>
 <footer>Файлы не уходят на сервер, но целиком читаются в память: нужен компьютер или телефон с 8 ГБ ОЗУ и больше. Неофициальный фанатский проект, не связан с Rockstar Games и Take-Two. Нужна твоя собственная копия игры.</footer>
 </main>
-
 <input id="fallback" type="file" webkitdirectory multiple hidden>
 <div id="load"><h2 id="loadTitle">Загрузка…</h2><div class="bar"><i id="barFill"></i></div></div>
-<canvas id="game"></canvas>
-
+<canvas id="game"></canvas><button id="fsBtn" type="button" aria-label="Полноэкранный режим">⛶ Полный экран</button>
 <script>
-const $ = s => document.querySelector(s);
-const GAME_ROOT = "/gtavc";
-const state = { entries: null, ok: false, engine: null };
-const lc = s => s.toLowerCase();
-
-/* 1. Проверка браузера */
-const checks = [
-  ["Безопасное соединение (HTTPS)", window.isSecureContext],
-  ["WebGL 2", !!document.createElement("canvas").getContext("webgl2")],
-];
-$("#checks").innerHTML = checks.map(([n, ok]) =>
-  `<div class="row"><span>${n}</span><b class="${ok ? "ok" : "no"}">${ok ? "есть" : "нет"}</b></div>`).join("");
-const envOk = checks.every(c => c[1]);
-function msg(t) { $("#msg").textContent = t || ""; }
-function mark(id, ok) { const e = $(id); e.textContent = ok ? "найден" : "нет"; e.className = ok ? "ok" : "no"; }
-if (!envOk) msg("Браузер не готов. Нужен HTTPS и поддержка WebGL 2.");
-
-/* 2. Поиск установки Vice City внутри выбранной папки (Steam прячет её на 1–2 уровня глубже) */
-async function hasFile(dir, sub, file) {
-  for await (const [n, h] of dir.entries()) {
-    if (h.kind === "directory" && lc(n) === sub)
-      for await (const [n2] of h.entries()) if (lc(n2) === file) return true;
-  }
-  return false;
-}
-async function findRoot(dir, depth = 3) {
-  if (await hasFile(dir, "data", "gta_vc.dat") && await hasFile(dir, "models", "gta3.img")) return dir;
-  if (depth <= 0) return null;
-  for await (const [, h] of dir.entries())
-    if (h.kind === "directory") { const r = await findRoot(h, depth - 1); if (r) return r; }
-  return null;
-}
-async function listFiles(dir, prefix = "", out = []) {
-  for await (const [name, h] of dir.entries()) {
-    const p = prefix ? prefix + "/" + name : name;
-    if (h.kind === "directory") await listFiles(h, p, out);
-    else out.push({ path: p, get: () => h.getFile() });
-  }
-  return out;
-}
-function entriesFromInput(files) {
-  const all = files.map(f => ({ f, p: f.webkitRelativePath }));
-  const hit = all.find(x => /(^|\/)data\/gta_vc\.dat$/i.test(x.p));
-  if (!hit) return null;
-  const prefix = hit.p.slice(0, hit.p.length - "data/gta_vc.dat".length);
-  if (!all.some(x => lc(x.p) === lc(prefix) + "models/gta3.img")) return null;
-  return all.filter(x => lc(x.p).startsWith(lc(prefix)))
-    .map(x => ({ path: x.p.slice(prefix.length), get: async () => x.f }));
-}
-function done(entries) {
-  state.entries = entries;
-  mark("#f1", !!entries); mark("#f2", !!entries);
-  state.ok = !!entries && envOk;
-  $("#play").disabled = !state.ok;
-  msg(entries ? `Установка найдена: ${entries.length} файлов.` + (envOk ? " Можно начинать." : " Но браузер не готов.")
-              : "Vice City в этой папке не нашлась. Нужна папка с data, models и audio (или папка выше).");
-}
-$("#pick").onclick = async () => {
-  if (!window.showDirectoryPicker) return $("#fallback").click();
-  try {
-    const dir = await showDirectoryPicker({ mode: "read" });
-    msg("Ищу установку…");
-    const root = await findRoot(dir);
-    done(root ? await listFiles(root) : null);
-  } catch (e) { if (e.name !== "AbortError") msg("Не удалось открыть папку: " + e.message); }
-};
-$("#fallback").onchange = e => { msg("Проверяю…"); done(entriesFromInput([...e.target.files])); };
-
-/* 3. Запуск: файлы копируются в память движка, сохранения живут в IndexedDB браузера */
-function progress(title, p) { $("#loadTitle").textContent = title; $("#barFill").style.width = Math.round(p * 100) + "%"; }
-function fail(e) {
-  console.error(e);
-  $("#load").style.display = "none";
-  msg("Ошибка запуска: " + (e && e.message || e));
-}
-$("#play").onclick = async () => {
-  if (!state.ok) return;
-  $("#load").style.display = "flex"; progress("Запускаю движок…", 0);
-  const canvas = $("#game");
-  let factory;
-  try { factory = (await import("./reVC.js")).default; } catch (e) { return fail(new Error("Не найден reVC.js рядом со страницей")); }
-  const entries = state.entries;
-  const config = {
-    canvas, arguments: [],
-    print: l => console.log(l), printErr: l => console.warn(l),
-    preRun: [inst => {
-      inst.addRunDependency("vice-assets");
-      (async () => {
-        const FS = inst.FS, made = new Set();
-        FS.mkdirTree(GAME_ROOT);
-        for (let i = 0; i < entries.length; i++) {
-          const e = entries[i], file = await e.get(), s = e.path.lastIndexOf("/");
-          const dir = s < 0 ? GAME_ROOT : GAME_ROOT + "/" + e.path.slice(0, s);
-          if (!made.has(dir)) { FS.mkdirTree(dir); made.add(dir); }
-          FS.writeFile(GAME_ROOT + "/" + e.path, new Uint8Array(await file.arrayBuffer()), { canOwn: true });
-          if (i % 25 === 0 || i === entries.length - 1) progress(`Загрузка файлов: ${i + 1} из ${entries.length}`, (i + 1) / entries.length);
-        }
-        const saves = GAME_ROOT + "/userfiles";
-        FS.mkdirTree(saves);
-        FS.mount(inst.IDBFS, { autoPersist: true }, saves);
-        await new Promise(r => FS.syncfs(true, r));
-        FS.chdir(GAME_ROOT);
-        inst.removeRunDependency("vice-assets");
-      })().catch(fail);
-    }],
-    onRuntimeInitialized() {
-      state.engine = this;
-      $("#load").style.display = "none";
-      document.body.classList.add("playing");
-      canvas.style.display = "block";
-    },
-  };
-  factory(config).catch(fail); // в нормальной работе обещание не завершается: движок забирает управление
-};
-/* В меню курсор свободный, в игре мышь захватывается по клику (состояние 9 = геймплей, как в оригинальной странице) */
-$("#game").addEventListener("click", () => {
-  const e = state.engine;
-  if (e && e._ViceGameState && e._ViceGameState() === 9 && document.pointerLockElement !== $("#game")) $("#game").requestPointerLock();
-});
+const $=s=>document.querySelector(s);const GAME_ROOT="/gtavc";const state={entries:null,ok:false,engine:null};const lc=s=>s.toLowerCase();
+const DB_NAME="opensa-folder-db",DB_STORE="handles",DB_KEY="game-folder";
+function openFolderDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=()=>r.result.createObjectStore(DB_STORE);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function saveFolderHandle(handle){try{const db=await openFolderDB();const tx=db.transaction(DB_STORE,"readwrite");tx.objectStore(DB_STORE).put(handle,DB_KEY);await new Promise((r,j)=>{tx.oncomplete=r;tx.onerror=()=>j(tx.error)});db.close()}catch(e){console.warn("Не удалось сохранить папку",e)}}
+async function getFolderHandle(){try{const db=await openFolderDB();const tx=db.transaction(DB_STORE,"readonly");const req=tx.objectStore(DB_STORE).get(DB_KEY);const v=await new Promise((r,j)=>{req.onsuccess=()=>r(req.result);req.onerror=()=>j(req.error)});db.close();return v}catch(e){return null}}
+async function restoreFolder(auto=false){const dir=await getFolderHandle();if(!dir)return false;try{let p=await dir.queryPermission({mode:"read"});if(p!=="granted"){if(auto){$("#restore").style.display="block";msg("Папка сохранена. Нажми «Восстановить сохранённую папку», чтобы снова дать браузеру доступ.");return false}p=await dir.requestPermission({mode:"read"})}if(p!=="granted")return false;msg("Восстанавливаю сохранённую папку…");const root=await findRoot(dir);if(root){done(await listFiles(root));return true}msg("Сохранённая папка больше не содержит нужную установку.");return false}catch(e){console.warn(e);return false}}
+const checks=[["Безопасное соединение (HTTPS)",window.isSecureContext],["WebGL 2",!!document.createElement("canvas").getContext("webgl2")],["Выбор папки",!!window.showDirectoryPicker]];
+$("#checks").innerHTML=checks.map(([n,ok])=>`<div class="row"><span>${n}</span><b class="${ok?"ok":"no"}">${ok?"есть":"нет"}</b></div>`).join("");const envOk=checks[0][1]&&checks[1][1];
+function msg(t){$("#msg").textContent=t||""}function mark(id,ok){const e=$(id);e.textContent=ok?"найден":"нет";e.className=ok?"ok":"no"}if(!envOk)msg("Браузер не готов. Нужен HTTPS и поддержка WebGL 2.");
+async function hasFile(dir,sub,file){for await(const[n,h]of dir.entries()){if(h.kind==="directory"&&lc(n)===sub)for await(const[n2]of h.entries())if(lc(n2)===file)return true}return false}
+async function findRoot(dir,depth=3){if(await hasFile(dir,"data","gta_vc.dat")&&await hasFile(dir,"models","gta3.img"))return dir;if(depth<=0)return null;for await(const[,h]of dir.entries())if(h.kind==="directory"){const r=await findRoot(h,depth-1);if(r)return r}return null}
+async function listFiles(dir,prefix="",out=[]){for await(const[name,h]of dir.entries()){const p=prefix?prefix+"/"+name:name;if(h.kind==="directory")await listFiles(h,p,out);else out.push({path:p,get:()=>h.getFile()})}return out}
+function entriesFromInput(files){const all=files.map(f=>({f,p:f.webkitRelativePath}));const hit=all.find(x=/(^|\/)data\/gta_vc\.dat$/i.test(x.p));if(!hit)return null;const prefix=hit.p.slice(0,hit.p.length-"data/gta_vc.dat".length);if(!all.some(x=>lc(x.p)===lc(prefix)+"models/gta3.img"))return null;return all.filter(x=>lc(x.p).startsWith(lc(prefix))).map(x=>({path:x.p.slice(prefix.length),get:async()=>x.f}))}
+function done(entries){state.entries=entries;mark("#f1",!!entries);mark("#f2",!!entries);state.ok=!!entries&&envOk;$("#play").disabled=!state.ok;msg(entries?`Установка найдена: ${entries.length} файлов.`+(envOk?" Можно начинать.":" Но браузер не готов."):"Vice City в этой папке не нашлась. Нужна папка с data, models и audio (или папка выше).")}
+$("#pick").onclick=async()=>{if(!window.showDirectoryPicker)return $("#fallback").click();try{const dir=await showDirectoryPicker({mode:"read"});await saveFolderHandle(dir);msg("Ищу установку…");const root=await findRoot(dir);done(root?await listFiles(root):null);if(root)$("#restore").style.display="none"}catch(e){if(e.name!=="AbortError")msg("Не удалось открыть папку: "+e.message)}};
+$("#restore").onclick=()=>restoreFolder(false);$("#fallback").onchange=e=>{msg("Проверяю…");done(entriesFromInput([...e.target.files]))};
+function progress(title,p){$("#loadTitle").textContent=title;$("#barFill").style.width=Math.round(p*100)+"%"}function fail(e){console.error(e);$("#load").style.display="none";msg("Ошибка запуска: "+(e&&e.message||e))}
+$("#play").onclick=async()=>{if(!state.ok)return;$("#load").style.display="flex";progress("Запускаю движок…",0);const canvas=$("#game");let factory;try{factory=(await import("./reVC.js")).default}catch(e){return fail(new Error("Не найден reVC.js рядом со страницей"))}const entries=state.entries;const config={canvas,arguments:[],print:l=>console.log(l),printErr:l=>console.warn(l),preRun:[inst=>{inst.addRunDependency("vice-assets");(async()=>{const FS=inst.FS,made=new Set();FS.mkdirTree(GAME_ROOT);for(let i=0;i<entries.length;i++){const e=entries[i],file=await e.get(),s=e.path.lastIndexOf("/"),dir=s<0?GAME_ROOT:GAME_ROOT+"/"+e.path.slice(0,s);if(!made.has(dir)){FS.mkdirTree(dir);made.add(dir)}FS.writeFile(GAME_ROOT+"/"+e.path,new Uint8Array(await file.arrayBuffer()),{canOwn:true});if(i%25===0||i===entries.length-1)progress(`Загрузка файлов: ${i+1} из ${entries.length}`,(i+1)/entries.length)}const saves=GAME_ROOT+"/userfiles";FS.mkdirTree(saves);FS.mount(inst.IDBFS,{autoPersist:true},saves);await new Promise(r=>FS.syncfs(true,r));FS.chdir(GAME_ROOT);inst.removeRunDependency("vice-assets")})().catch(fail)}],onRuntimeInitialized(){state.engine=this;$("#load").style.display="none";document.body.classList.add("playing");canvas.style.display="block"}};factory(config).catch(fail)};
+$("#game").addEventListener("click",()=>{const e=state.engine;if(e&&e._ViceGameState&&e._ViceGameState()===9&&document.pointerLockElement!==$("#game"))$("#game").requestPointerLock()});
+async function toggleFullscreen(){try{if(!document.fullscreenElement){await (document.documentElement.requestFullscreen?.()||$("#game").requestFullscreen?.())}else await document.exitFullscreen()}catch(e){msg("Полноэкранный режим недоступен: "+e.message)}}
+$("#fsBtn").onclick=toggleFullscreen;document.addEventListener("fullscreenchange",()=>{$("#fsBtn").textContent=document.fullscreenElement?"⛶ Выйти из полного экрана":"⛶ Полный экран"});
+window.addEventListener("load",()=>{if(window.showDirectoryPicker)restoreFolder(true)});
 </script>
-
 </body>
 </html>
